@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:gravity="center_horizontal"
+    android:padding="10dp"
+    android:background="#ffcccccc">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="设置您的靓照"
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:gravity="center_horizontal"/>
+   
+    <LinearLayout
+        android:id="@+id/photo_take"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/photo_take" />
+
+        <TextView
+            android:paddingLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="调用相机拍照" />
+        
+    </LinearLayout>
+	<TextView        
+        android:layout_width="fill_parent"
+        android:layout_height="1dp" 
+        android:background="#ffdddddd"/>
+    <LinearLayout
+        android:id="@+id/photo_sel"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/photo_sel" />
+
+        <TextView
+            android:paddingLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="从照片库中选择" />
+    </LinearLayout>
+	<TextView        
+        android:layout_width="fill_parent"
+        android:layout_height="1dp" 
+        android:background="#cccccc"/>
+</LinearLayout>

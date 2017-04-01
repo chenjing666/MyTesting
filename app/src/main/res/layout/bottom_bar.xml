@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:background="#ffffff"
+    android:layout_height="0dp"
+    android:layout_weight="1.6"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/main_rbottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <ImageView
+            android:id="@+id/main_unselect"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="50dp"
+            android:background="@drawable/main_selector"
+            android:clickable="true" />
+
+        <ImageView
+            android:id="@+id/menu_putvedio"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/live_selector"
+            android:clickable="true" />
+
+        <ImageView
+            android:id="@+id/main_me_unselect"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="50dp"
+            android:src="@drawable/me_selector" />
+
+    </RelativeLayout>
+
+</LinearLayout>

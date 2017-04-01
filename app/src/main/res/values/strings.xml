@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">BKlive</string>
+    <string name="sms_login">短信登录</string>
+    <string name="china">中国</string>
+    <string name="phone_num">请输入手机号</string>
+    <string name="password">密码</string>
+    <string name="put_password">请输入密码</string>
+    <string name="btn_login">登录</string>
+    <string name="follow">关注</string>
+    <string name="game">游戏</string>
+    <string name="found">发现</string>
+    <string name="samecity">同城</string>
+    <string name="mine">我的</string>
+    <string name="bk_userid">镖客号</string>
+    <string name="bk_set">设置</string>
+    <string name="bk_identification">实名认证</string>
+    <string name="choose_file">选择文件</string>
+    <string name="internal_storage">内部存储</string>
+    <string name="phone_register">手机号注册</string>
+    <string name="send_pin">发送验证码</string>
+    <string name="pin">验证码</string>
+    <string name="put_pin">请输入验证码</string>
+    <string name="confirm_pw">确认密码</string>
+    <string name="btn_register">注册</string>
+    <string name="male">男</string>
+    <string name="femal">女</string>
+    <string name="finish">完成</string>
+    <string name="sex">性别</string>
+    <string name="nickName">昵称</string>
+    <string name="put_info">填写资料</string>
+    <string name="login_pin">验证码登录</string>
+    <string name="gossip">八卦</string>
+    <string name="privatemessage">私信</string>
+    <string name="mymessage">消息</string>
+    <string name="search_hot">热门搜索</string>
+    <string name="cancel_tv">取消</string>
+</resources>
