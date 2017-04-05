@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isLogin", true);
                     user.setuId(userId);
-                    editor.putString("userId",user.getuId());
+                    editor.putString("userId",userId);
                     editor.commit();
                     Log.d("LoginActivity----useId",user.getuId()+"");
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));

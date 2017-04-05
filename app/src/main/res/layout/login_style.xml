@@ -40,14 +40,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_centerHorizontal="true"
                 android:src="@mipmap/wechat_login" />
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/wechat_login"
                 android:layout_centerHorizontal="true"
-                android:text="微信登录" />
+                android:src="@mipmap/wechat_login1" />
         </RelativeLayout>
 
 
@@ -61,14 +62,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_centerHorizontal="true"
                 android:src="@mipmap/qq_login" />
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/qq_login"
                 android:layout_centerHorizontal="true"
-                android:text="QQ登录" />
+                android:src="@mipmap/qq_login1"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -81,14 +83,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_centerHorizontal="true"
                 android:src="@mipmap/phone_login" />
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/phone_login"
                 android:layout_centerHorizontal="true"
-                android:text="手机登录" />
+                android:src="@mipmap/phone_login1"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -101,14 +104,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_centerHorizontal="true"
                 android:src="@mipmap/weibo_login" />
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/weibo_login"
                 android:layout_centerHorizontal="true"
-                android:text="微博登录" />
+                android:src="@mipmap/weibo_login1" />
         </RelativeLayout>
     </LinearLayout>
 

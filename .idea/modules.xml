@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/BKlive.iml" filepath="$PROJECT_DIR$/BKlive.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/citypickerview/citypickerview.iml" filepath="$PROJECT_DIR$/citypickerview/citypickerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xlibs/xlibs.iml" filepath="$PROJECT_DIR$/xlibs/xlibs.iml" />
     </modules>
   </component>
 </project>

@@ -18,8 +18,10 @@ public class Api {
 
     public final static String LIVEPUT = ADDRESS + "/BK/Live.php";//直播接口
 
-    public final static String USERINFO_USER = ADDRESS + "/BK/UserInfo.php";//直播接口
+    public final static String USERINFO_USER = ADDRESS + "/BK/UserInfo.php";//用户信息接口
 
+    public final static String LIVE_CAMERA = ADDRESS + "/BK/IsLive.php";//摄像头直播接口
 
+    public final static String VIDEO_LIVE = ADDRESS + "/BK/IsLive.php";//发现页面视频接口
 
 }

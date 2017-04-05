@@ -148,8 +148,6 @@ public class EditUserActivity extends BaseActivity {
                     }
                 }, 2000, 1, 2).show();
 
-//                Intent intent_age = new Intent(this, DateActivity.class);
-//                startActivity(intent_age);
                 break;
             case R.id.edit_emotion:
                 emotionPop();

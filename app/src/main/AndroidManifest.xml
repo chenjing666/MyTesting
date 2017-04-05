@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.biaoke.bklive">
 
+
     <uses-permission android:name="android.permission.INTERNET" />
     //网络
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     //七牛
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    // 添加网络状态监测的权限
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -16,6 +18,15 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:name=".AppLaunch"
@@ -61,7 +72,13 @@
         <activity android:name=".activity.MessageActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".user.activity.MyworkActivity" />
-        <activity android:name=".activity.LiveCameraActivity"></activity>
+        <activity android:name=".activity.SWCameraStreamingActivity" />
+        <activity
+            android:name="com.qiniu.pili.droid.streaming.screen.ScreenCaptureRequestActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            //七牛录屏功能
+        </activity>
+        <activity android:name=".activity.PLVideoViewActivity"></activity>
     </application>
 
 </manifest>

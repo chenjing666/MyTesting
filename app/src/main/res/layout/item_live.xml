@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="270px">
+
+    <TextView
+        android:id="@+id/item_live_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="直播中"
+        android:textColor="#ffffff"
+        android:textSize="20px" />
+
+    <ImageView
+        android:id="@+id/item_live_Thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="212px" />
+
+    <TextView
+        android:id="@+id/item_live_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150px"
+        android:text="直播描述"
+        android:textColor="#000000"
+        android:textSize="26px" />
+
+    <com.pkmmte.view.CircularImageView
+        android:id="@+id/item_live_head"
+        android:layout_width="40px"
+        android:layout_height="40px"
+        android:layout_marginTop="218px"
+        android:scaleType="centerInside"
+        android:src="@mipmap/head_end"
+        app:border="true"
+        app:border_color="#16f5f5f5"
+        app:border_width="6dp"
+        app:selector="true"
+        app:selector_color="#4D000000"
+        app:selector_stroke_color="#16f5f5f5"
+        app:selector_stroke_width="1dp"
+        app:shadow="false" />
+
+    <TextView
+        android:id="@+id/item_live_nickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8px"
+        android:layout_marginTop="218px"
+        android:layout_toRightOf="@+id/item_live_head"
+        android:textColor="#222222"
+        android:textSize="26px" />
+
+    <ImageView
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:layout_marginEnd="20px"
+        android:layout_marginTop="218px"
+        android:layout_toLeftOf="@+id/item_live_people"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/item_live_people"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20px"
+        android:layout_marginTop="218px"
+        android:text="在线人数"
+        android:textColor="@color/gray"
+        android:textSize="20px" />
+
+</RelativeLayout>

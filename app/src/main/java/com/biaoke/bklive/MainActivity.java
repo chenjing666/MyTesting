@@ -22,8 +22,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.biaoke.bklive.activity.LiveCameraActivity;
 import com.biaoke.bklive.activity.MessageActivity;
+import com.biaoke.bklive.activity.SWCameraStreamingActivity;
 import com.biaoke.bklive.activity.SearchActivity;
 import com.biaoke.bklive.activity.ShortVedioActivity;
 import com.biaoke.bklive.base.BaseActivity;
@@ -46,6 +46,7 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
@@ -57,6 +58,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.MediaType;
+import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
     @BindViews({R.id.tv_follow, R.id.tv_game, R.id.tv_found, R.id.tv_samecity})
@@ -120,7 +122,7 @@ public class MainActivity extends BaseActivity {
     private String openID = null;
     //点击2次返回，退出程序
     private boolean isExit = false;
-    User user=new User();
+    User user = new User();
     private String UserId;
     private String mNickName;
     private String mLevel;
@@ -138,6 +140,8 @@ public class MainActivity extends BaseActivity {
     private String mFollow;
     private String mFans;
     private String mSignture;
+    private String liveUrl;
+    private String Msg;
 
 
     @Override
@@ -146,6 +150,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mTencent = Tencent.createInstance(APPID, MainActivity.this.getApplication());
+        SharedPreferences sharedPreferences_user = getSharedPreferences("isLogin", Context.MODE_PRIVATE);//首先获取用户ID，直播要取
+        UserId = sharedPreferences_user.getString("userId", "");//如果取不到值就取后面的""
+        Log.e(UserId + "主页面获取用户名:", UserId);
         BottomBar bottomBar = (BottomBar) findViewById(R.id.ll_bottom_bar);
         bottomBar.setOnItemChangedListener(new BottomBar.OnItemChangedListener() {
 
@@ -158,7 +165,7 @@ public class MainActivity extends BaseActivity {
                     llUser.setVisibility(View.GONE);
                 } else if (index == 1) {
                     SharedPreferences sharedPreferences = getSharedPreferences("isLogin", Context.MODE_PRIVATE);
-                    boolean isLogin =sharedPreferences.getBoolean("isLogin",false);
+                    boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
                     if (!isLogin) {
                         loginPopupWindow();
                         popupWindow_login.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 260, 260);
@@ -167,18 +174,17 @@ public class MainActivity extends BaseActivity {
                         mine.setVisibility(View.VISIBLE);
                         llUser.setVisibility(View.VISIBLE);
                         llMain.setVisibility(View.GONE);
-                        SharedPreferences sharedPreferences_user = getSharedPreferences("userId", Context.MODE_PRIVATE);
-                        UserId=sharedPreferences_user.getString("userId","");//如果取不到值就取后面的""
-                        Log.e(UserId+"主页面获取用户名:",UserId);
-                        JSONObject jsonObject_user=new JSONObject();
+
+                        JSONObject jsonObject_user = new JSONObject();
                         try {
-                            jsonObject_user.put("Protocol","UserInfo");
-                            jsonObject_user.put("Cmd","1");
-                            jsonObject_user.put("UserId",UserId);
+                            jsonObject_user.put("Protocol", "UserInfo");
+                            jsonObject_user.put("Cmd", "1");
+                            jsonObject_user.put("UserId", UserId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        UserInfoHttp(Api.ENCRYPT64,jsonObject_user.toString());
+                        Log.e("主页面获取用户ID", jsonObject_user.toString());
+                        UserInfoHttp(Api.ENCRYPT64, jsonObject_user.toString());
                     }
                 }
 
@@ -186,7 +192,24 @@ public class MainActivity extends BaseActivity {
         });
         bottomBar.setSelectedState(0);
         init();//主页面
+
     }
+
+
+    Handler mHandler = new Handler() {
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case 1:
+                    Intent intent_live = new Intent(MainActivity.this, SWCameraStreamingActivity.class);
+                    intent_live.putExtra("liveUrl", liveUrl);
+                    startActivity(intent_live);
+                    break;
+                case 2:
+                    Toast.makeText(MainActivity.this, Msg, Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
     //设置电量条颜色
     @Override
@@ -198,17 +221,18 @@ public class MainActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.live_putvideo:
+                okhttputils();
                 llBottomBar.setVisibility(View.GONE);
                 showPopWindow();
-                setBackgroundAlpha(0.4f,MainActivity.this);
+                setBackgroundAlpha(0.4f, MainActivity.this);
                 popupWindow_vedio.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.iv_message:
-                Intent intent_message=new Intent(this, MessageActivity.class);
+                Intent intent_message = new Intent(this, MessageActivity.class);
                 startActivity(intent_message);
                 break;
             case R.id.iv_search:
-                Intent intent_search=new Intent(this, SearchActivity.class);
+                Intent intent_search = new Intent(this, SearchActivity.class);
                 startActivity(intent_search);
                 break;
             case R.id.btn_edit:
@@ -319,7 +343,7 @@ public class MainActivity extends BaseActivity {
         imageView_unput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBackgroundAlpha(1.0f,MainActivity.this);
+                setBackgroundAlpha(1.0f, MainActivity.this);
                 popupWindow_vedio.dismiss();
                 llBottomBar.setVisibility(View.VISIBLE);
             }
@@ -328,22 +352,142 @@ public class MainActivity extends BaseActivity {
         imageView_vedioshort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBackgroundAlpha(1.0f,MainActivity.this);
+                setBackgroundAlpha(1.0f, MainActivity.this);
                 startActivity(new Intent(MainActivity.this, ShortVedioActivity.class));
                 popupWindow_vedio.dismiss();
                 llBottomBar.setVisibility(View.VISIBLE);
             }
         });
-        ImageView imageView_camera= (ImageView) contentView.findViewById(R.id.live_camera);
+        ImageView imageView_camera = (ImageView) contentView.findViewById(R.id.live_camera);
         imageView_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBackgroundAlpha(1.0f,MainActivity.this);
-                startActivity(new Intent(MainActivity.this, LiveCameraActivity.class));
+                okhttpliveCamera();
+                setBackgroundAlpha(1.0f, MainActivity.this);
                 popupWindow_vedio.dismiss();
                 llBottomBar.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    //通过ID判断是否可以发布直播，不符合要实名认证
+    private void okhttpliveCamera() {
+        JSONObject jsonObject_camera = new JSONObject();
+        try {
+            jsonObject_camera.put("Protocol", "IsLive");
+            jsonObject_camera.put("Cmd", "1");
+            jsonObject_camera.put("UserId", UserId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpUtils
+                .postString()
+                .url(Api.ENCRYPT64)
+                .content(jsonObject_camera.toString())
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.d("失败的返回", e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+//                        Log.d("成功的返回", response);
+//                        Okhttputils(Api.LOGIN,response);
+                        OkHttpUtils.postString()
+                                .url(Api.LIVE_CAMERA)
+                                .content(response)
+                                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                                .build()
+                                .execute(new StringCallback() {
+                                    @Override
+                                    public void onError(Call call, Exception e, int id) {
+                                        Log.d("失败的返回", e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onResponse(String response, int id) {
+//                                        Log.d("成功的返回", response);
+                                        OkHttpUtils.postString()
+                                                .url(Api.UNENCRYPT64)
+                                                .content(response)
+                                                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                                                .build()
+                                                .execute(new StringCallback() {
+                                                    @Override
+                                                    public void onError(Call call, Exception e, int id) {
+                                                        Log.d("失败的返回", e.getMessage());
+                                                    }
+
+                                                    @Override
+                                                    public void onResponse(String response, int id) {
+                                                        Log.d("成功的返回", response);
+                                                        try {
+                                                            JSONObject jsonobject = new JSONObject(response);
+                                                            Msg = jsonobject.getString("Msg");
+                                                            String Result = jsonobject.getString("Result");
+                                                            Message msg = new Message();
+                                                            if (Result.equals("1")) {
+                                                                msg.what = 1;
+                                                                mHandler.sendMessage(msg);
+                                                            } else if (Result.equals("0")) {
+                                                                msg.what = 2;
+                                                                mHandler.sendMessage(msg);
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                });
+                    }
+                });
+    }
+
+    //获取直播地址流
+    private void okhttputils() {
+//        SharedPreferences sharedPreferences_user = getSharedPreferences("userId", Context.MODE_PRIVATE);
+//        String userId = sharedPreferences_user.getString("userId", "");
+//        Log.e("userIduserId", userId);
+        JSONObject paramsObject = new JSONObject();
+        try {
+//            paramsObject.put("UserId", UserId);
+            paramsObject.put("Protocol", "Live");
+            paramsObject.put("UserId", UserId);
+            paramsObject.put("Cmd", "1");
+            Log.e("cao---=====", paramsObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpUtils.postString()
+                .url(Api.LIVEPUT)
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .content(paramsObject.toString())
+                .build()
+                .execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(Response response, int id) throws Exception {
+                        JSONObject object = new JSONObject(response.body().string());
+                        liveUrl = object.getString("RTMPPublishURL");
+                        Log.d("liveUrl-----", liveUrl);
+//                        Message msg = new Message();
+//                        msg.what = 2;
+//                        myHandler.sendMessage(msg);
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.d("onError", e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Object response, int id) {
+                    }
+                });
     }
 
 
@@ -433,7 +577,7 @@ public class MainActivity extends BaseActivity {
         }
     };
 
-    public void UserInfoHttp(String url,String path){
+    public void UserInfoHttp(String url, String path) {
         OkHttpUtils
                 .postString()
                 .url(url)
@@ -477,7 +621,7 @@ public class MainActivity extends BaseActivity {
                                                         Log.d("成功===成功的返回", response);
                                                         try {
                                                             JSONObject jsonobject = new JSONObject(response);
-                                                            mNickName = jsonobject.getString("昵称");
+                                                            mNickName = jsonobject.getString("NickName");
                                                             mLevel = jsonobject.getString("等级");
                                                             mExperience = jsonobject.getString("经验");
                                                             mIncome = jsonobject.getString("收益");
@@ -490,9 +634,9 @@ public class MainActivity extends BaseActivity {
                                                             mEmotion = jsonobject.getString("情感");
                                                             mHometown = jsonobject.getString("家乡");
                                                             mWork = jsonobject.getString("职业");
-                                                            mFollow = jsonobject.getString("关注"+"");
-                                                            mFans = jsonobject.getString("粉丝"+"");
-                                                            mSignture = jsonobject.getString("签名"+"");
+                                                            mFollow = jsonobject.getString("关注" + "");
+                                                            mFans = jsonobject.getString("粉丝" + "");
+                                                            mSignture = jsonobject.getString("签名" + "");
                                                         } catch (JSONException e) {
                                                             e.printStackTrace();
                                                         }
@@ -585,6 +729,7 @@ public class MainActivity extends BaseActivity {
             finish();
         }
     }
+
     //设置透明度
     public void setBackgroundAlpha(float bgAlpha, Context context) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();

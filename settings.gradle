@@ -1,1 +1,1 @@
-include ':app', ':citypickerview'
+include ':app', ':citypickerview', ':xlibs'
