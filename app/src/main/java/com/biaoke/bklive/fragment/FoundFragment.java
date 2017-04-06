@@ -53,7 +53,6 @@ public class FoundFragment extends Fragment {
     private View mHeaderView;
     private View mFooterView;
     private liveItemAdapter liveItemAdapter;
-    private String nickName;
     private ImageView imageView;
 
     @Nullable
@@ -67,7 +66,6 @@ public class FoundFragment extends Fragment {
         myImagecycleview();
 
         for (int i = 0; i < 3; i++) {
-            nickName = i + i + "";
             live_item liveItem = new live_item("", "", "", "", "", i+i+"", "", "", "", "", "");
             recyclerDataList.add(liveItem);
         }
@@ -132,7 +130,6 @@ public class FoundFragment extends Fragment {
 
     private void initRefreshData() {
         for (int i = 0; i < 3; i++) {
-            nickName = i + i + "";
             live_item liveItem = new live_item("", "", "", "", "", i+i+"", "", "", "", "", "");
             recyclerDataList.add(liveItem);
         }
@@ -153,7 +150,6 @@ public class FoundFragment extends Fragment {
 
     private void initLoadMoreData() {
         for (int i = 0; i < 3; i++) {
-            nickName = i + i + "";
             live_item liveItem = new live_item("", "", "", "", "", i+i+"", "", "", "", "", "");
             recyclerDataList.add(liveItem);
         }

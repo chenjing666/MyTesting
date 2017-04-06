@@ -25,12 +25,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SWCameraStreamingActivity extends BaseActivity implements StreamingStateChangedListener {
-    @BindView(R.id.start)
+    @BindView(R.id.btn_start_live)
     Button start;
     private MediaStreamingManager mMediaStreamingManager;
     private String liveUrl = null;
     private StreamingProfile mProfile;
-
+    //那里是播放
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,8 +163,8 @@ public class SWCameraStreamingActivity extends BaseActivity implements Streaming
 
     }
 
-    @OnClick(R.id.start)
+    @OnClick(R.id.btn_start_live)
     public void onClick() {
-        Toast.makeText(this,"哈哈哈哈",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "哈哈哈哈", Toast.LENGTH_SHORT).show();
     }
 }

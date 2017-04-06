@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.biaoke.bklive.R;
 import com.biaoke.bklive.base.BaseActivity;
 import com.biaoke.bklive.message.AppConsts;
+import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.widget.PLVideoView;
 
 public class PLVideoViewActivity extends BaseActivity {
@@ -23,13 +24,25 @@ public class PLVideoViewActivity extends BaseActivity {
         mVideoView.setKeepScreenOn(true);//设置屏幕常亮
         mVideoView.requestFocus();//拿到焦点
         mVideoView.setVideoPath(path);
-        mVideoView.start();
+//        mVideoView.start();
         btn_start = (Button) findViewById(R.id.start_video);
         btn_start.setOnClickListener(listen);
         btn_pause = (Button) findViewById(R.id.pause);
         btn_pause.setOnClickListener(listen);
         btn_stop = (Button) findViewById(R.id.stop);
         btn_stop.setOnClickListener(listen);
+        mVideoView.setOnInfoListener(new PLMediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(PLMediaPlayer plMediaPlayer, int i, int i1) {
+                return false;
+            }
+        });
+        mVideoView.setOnBufferingUpdateListener(new PLMediaPlayer.OnBufferingUpdateListener() {
+            @Override
+            public void onBufferingUpdate(PLMediaPlayer plMediaPlayer, int i) {
+                mVideoView.start();
+            }
+        });
     }
 
     private View.OnClickListener listen = new View.OnClickListener() {
